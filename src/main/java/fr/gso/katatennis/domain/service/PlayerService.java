@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PlayerService {
@@ -28,7 +29,14 @@ public class PlayerService {
         return "Player " + savedPlayer.getName() + " saved";
     }
 
-    public Iterable<Player> getAllPlayers(){
+    public Iterable<Player> findAllPlayers(){
         return playerRepository.findAll();
     }
+
+    public Set<Player> findMatchPlayers(Integer matchId){
+        return playerRepository.findAllByMatchId(matchId);
+    }
+
+    //todo avant de jouer voir le match du status pour gérer si possible de jouer,
+    //todo match status must be startssoon or in progress
 }

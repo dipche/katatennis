@@ -17,8 +17,6 @@ public class Match {
 
     private Integer player2Id;
 
-    private Integer scoreId;
-
     private MatchStatus status;
 
     public Match() {
@@ -29,11 +27,10 @@ public class Match {
         this.status = statusToSet;
     }
 
-    public Match(Integer id, Integer player1Id, Integer player2Id, Integer scoreId, MatchStatus status) {
+    public Match(Integer id, Integer player1Id, Integer player2Id, MatchStatus status) {
         this.id = id;
         this.player1Id = player1Id;
         this.player2Id = player2Id;
-        this.scoreId = scoreId;
         this.status = status;
     }
 
@@ -53,10 +50,6 @@ public class Match {
         return player2Id;
     }
 
-    public Integer getScoreId() {
-        return scoreId;
-    }
-
     public MatchStatus getStatus() {
         return status;
     }
@@ -69,12 +62,11 @@ public class Match {
         return Objects.equals(getId(), match.getId()) &&
                 Objects.equals(getPlayer1Id(), match.getPlayer1Id()) &&
                 Objects.equals(getPlayer2Id(), match.getPlayer2Id()) &&
-                Objects.equals(getScoreId(), match.getScoreId()) &&
                 getStatus() == match.getStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPlayer1Id(), getPlayer2Id(), getScoreId(), getStatus());
+        return Objects.hash(getId(), getPlayer1Id(), getPlayer2Id(), getStatus());
     }
 }

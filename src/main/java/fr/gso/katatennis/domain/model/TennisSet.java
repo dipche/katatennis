@@ -17,19 +17,18 @@ public class TennisSet implements Comparable{
 
     private Integer matchId;
 
-    private Integer player1Score;
+    private Integer player1SetScore;
 
-    private Integer player2Score;
+    private Integer player2SetScore;
 
     public TennisSet() {
     }
 
-    public TennisSet(int id, int number, int matchId, int player1Score, int player2Score) {
-        this.id = id;
+    public TennisSet(Integer number, Integer matchId, Integer player1SetScore, Integer player2SetScore) {
         this.number = number;
         this.matchId = matchId;
-        this.player1Score = player1Score;
-        this.player2Score = player2Score;
+        this.player1SetScore = player1SetScore;
+        this.player2SetScore = player2SetScore;
     }
 
     public int getId() {
@@ -44,12 +43,12 @@ public class TennisSet implements Comparable{
         return matchId;
     }
 
-    public int getPlayer1Score() {
-        return player1Score;
+    public int getPlayer1SetScore() {
+        return player1SetScore;
     }
 
-    public int getPlayer2Score() {
-        return player2Score;
+    public int getPlayer2SetScore() {
+        return player2SetScore;
     }
 
     @Override
@@ -66,12 +65,12 @@ public class TennisSet implements Comparable{
         return getId() == tennisSet.getId() &&
                 getNumber() == tennisSet.getNumber() &&
                 getMatchId() == tennisSet.getMatchId() &&
-                getPlayer1Score() == tennisSet.getPlayer1Score() &&
-                getPlayer2Score() == tennisSet.getPlayer2Score();
+                getPlayer1SetScore() == tennisSet.getPlayer1SetScore() &&
+                getPlayer2SetScore() == tennisSet.getPlayer2SetScore();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getNumber(), getMatchId(), getPlayer1Score(), getPlayer2Score());
+        return Objects.hash(getId(), getNumber(), getMatchId(), getPlayer1SetScore(), getPlayer2SetScore());
     }
 }

@@ -26,6 +26,6 @@ public class PlayerController {
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Player> getAllPlayers() {
-        return playerService.getAllPlayers();
+        return playerService.findAllPlayers();
     }
 }

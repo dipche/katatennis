@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-public class Player {
+public class Player implements Comparable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -79,5 +79,11 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName(), getMatchId(), getCurrentGameScore(), getCurrentSetScore(), getNumbersOfWonSet());
+    }
+
+    @Override
+    public int compareTo(Object that) {
+        Player aPlayer = (Player) that;
+        return Integer.compare(this.id, aPlayer.id);
     }
 }

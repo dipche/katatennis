@@ -4,10 +4,10 @@ import fr.gso.katatennis.domain.model.TennisSet;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public interface TennisSetRepository extends CrudRepository<TennisSet, Integer> {
 
-    Set<TennisSet> findAllByMatchId(Integer matchId);
+    List<TennisSet> findAllByMatchId(Integer matchId);
 }

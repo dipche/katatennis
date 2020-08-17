@@ -4,9 +4,9 @@ import fr.gso.katatennis.domain.model.Match;
 import fr.gso.katatennis.domain.model.MatchStatus;
 import fr.gso.katatennis.domain.model.Player;
 import fr.gso.katatennis.domain.model.TennisSet;
-import fr.gso.katatennis.domain.service.MatchService;
-import fr.gso.katatennis.domain.service.PlayerService;
-import fr.gso.katatennis.domain.service.TennisSetService;
+import fr.gso.katatennis.domain.service.IMatchService;
+import fr.gso.katatennis.domain.service.IPlayerService;
+import fr.gso.katatennis.domain.service.ITennisSetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class MatchController {
 
     @Autowired
-    private MatchService matchService;
+    private IMatchService matchService;
 
     @Autowired
-    private PlayerService playerService;
+    private IPlayerService playerService;
 
     @Autowired
-    private TennisSetService tennisSetService;
+    private ITennisSetService tennisSetService;
 
     @GetMapping(path="/view")
     public Match viewMatchStatus(@RequestParam(value = "id") int id, @RequestParam(value = "status", defaultValue = "STARTS_SOON") String status) {

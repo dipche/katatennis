@@ -1,20 +1,21 @@
-package fr.gso.katatennis.domain.service;
+package fr.gso.katatennis.domain.service.impl;
 
 import fr.gso.katatennis.domain.model.TennisSet;
+import fr.gso.katatennis.domain.service.ITennisSetService;
 import fr.gso.katatennis.repository.TennisSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
-public class TennisSetService {
+public class TennisSetService implements ITennisSetService {
 
     @Autowired
     private TennisSetRepository tennisSetRepository;
 
     public Long computeMatchNextSetNumber(Integer matchId){
-        Set<TennisSet> sets = tennisSetRepository.findAllByMatchId(matchId);
+        List<TennisSet> sets = tennisSetRepository.findAllByMatchId(matchId);
         return (long) (sets.size()+1);
     }
 
@@ -23,7 +24,7 @@ public class TennisSetService {
         return "Set " + "with number " + tennisSet.getNumber() + " saved";
     }
 
-    public Set<TennisSet> findMatchSets(Integer matchId){
+    public List<TennisSet> findMatchSets(Integer matchId){
         return tennisSetRepository.findAllByMatchId(matchId);
     }
 }

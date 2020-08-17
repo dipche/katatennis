@@ -1,15 +1,16 @@
-package fr.gso.katatennis.domain.service;
+package fr.gso.katatennis.domain.service.impl;
 
 import fr.gso.katatennis.domain.model.Player;
+import fr.gso.katatennis.domain.service.IPlayerService;
 import fr.gso.katatennis.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
-public class PlayerService {
+public class PlayerService implements IPlayerService {
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -33,7 +34,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public Set<Player> findMatchPlayers(Integer matchId){
+    public List<Player> findMatchPlayers(Integer matchId){
         return playerRepository.findAllByMatchId(matchId);
     }
 

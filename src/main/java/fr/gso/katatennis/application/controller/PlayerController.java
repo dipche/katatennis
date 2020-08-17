@@ -1,7 +1,7 @@
 package fr.gso.katatennis.application.controller;
 
 import fr.gso.katatennis.domain.model.Player;
-import fr.gso.katatennis.domain.service.PlayerService;
+import fr.gso.katatennis.domain.service.impl.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

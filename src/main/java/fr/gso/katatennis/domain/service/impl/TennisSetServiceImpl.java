@@ -1,7 +1,7 @@
 package fr.gso.katatennis.domain.service.impl;
 
 import fr.gso.katatennis.domain.model.TennisSet;
-import fr.gso.katatennis.domain.service.ITennisSetService;
+import fr.gso.katatennis.domain.service.TennisSetService;
 import fr.gso.katatennis.repository.TennisSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TennisSetService implements ITennisSetService {
+public class TennisSetServiceImpl implements TennisSetService {
 
     @Autowired
     private TennisSetRepository tennisSetRepository;
 
-    public Long computeMatchNextSetNumber(Integer matchId){
+    public Integer computeMatchNextSetNumber(Integer matchId){
         List<TennisSet> sets = tennisSetRepository.findAllByMatchId(matchId);
-        return (long) (sets.size()+1);
+        return sets.size()+1;
     }
 
     public String updateASet(TennisSet tennisSetToUpdate){

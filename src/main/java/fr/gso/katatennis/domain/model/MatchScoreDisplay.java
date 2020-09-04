@@ -2,9 +2,9 @@ package fr.gso.katatennis.domain.model;
 
 public class MatchScoreDisplay {
 
-    private String player1;
+    private String player1Name;
 
-    private String player2;
+    private String player2Name;
 
     private String score;
 
@@ -12,27 +12,27 @@ public class MatchScoreDisplay {
 
     private String matchStatus;
 
-    public MatchScoreDisplay(String player1, String player2, String score, String currentGameStatus, String matchStatus) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public MatchScoreDisplay(String player1Name, String player2Name, String score, String currentGameStatus, String matchStatus) {
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
         this.score = score;
         this.currentGameStatus = currentGameStatus;
         this.matchStatus = matchStatus;
     }
 
-    public MatchScoreDisplay(String player1, String player2, String score, String matchStatus) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public MatchScoreDisplay(String player1Name, String player2Name, String score, String matchStatus) {
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
         this.score = score;
         this.matchStatus = matchStatus;
     }
 
-    public String getPlayer1() {
-        return player1;
+    public String getPlayer1Name() {
+        return player1Name;
     }
 
-    public String getPlayer2() {
-        return player2;
+    public String getPlayer2Name() {
+        return player2Name;
     }
 
     public String getScore() {

@@ -4,13 +4,13 @@ import fr.gso.katatennis.domain.model.Player;
 
 import java.util.List;
 
-public interface IPlayerService {
+public interface PlayerService {
 
     Player findPlayerByName(String name);
 
     Player findPlayerById(Integer plyId);
 
-    String registerPlayer(Player player);
+    Player registerPlayer(Player player);
 
     Iterable<Player> findAllPlayers();
 

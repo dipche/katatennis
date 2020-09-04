@@ -4,9 +4,9 @@ import fr.gso.katatennis.domain.model.TennisSet;
 
 import java.util.List;
 
-public interface ITennisSetService {
+public interface TennisSetService {
 
-    Long computeMatchNextSetNumber(Integer matchId);
+    Integer computeMatchNextSetNumber(Integer matchId);
 
     String updateASet(TennisSet tennisSetToUpdate);
 

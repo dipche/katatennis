@@ -4,6 +4,6 @@ import fr.gso.katatennis.domain.model.Game;
 
 import java.util.List;
 
-public interface IGameService {
-    List<Game> findSetGames(Integer setId);
+public interface GameService {
+    List<Game> findGameSets(Integer setId);
 }

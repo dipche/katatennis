@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
-    List<Game> findByTennisSetIdOrderByIdIdDesc(Integer setId);
+    List<Game> findByTennisSetIdOrderByIdDesc(Integer setId);
 }

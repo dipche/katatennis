@@ -1,7 +1,7 @@
 package fr.gso.katatennis.domain.service.impl;
 
 import fr.gso.katatennis.domain.model.*;
-import fr.gso.katatennis.domain.service.IMatchService;
+import fr.gso.katatennis.domain.service.MatchService;
 import fr.gso.katatennis.repository.GameRepository;
 import fr.gso.katatennis.repository.MatchRepository;
 import fr.gso.katatennis.repository.PlayerRepository;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static fr.gso.katatennis.domain.model.MatchStatus.IN_PROGRESS;
 
 @Service
-public class MatchService implements IMatchService {
+public class MatchServiceImpl implements MatchService {
 
     @Autowired
     private MatchRepository matchRepository;
@@ -35,17 +35,20 @@ public class MatchService implements IMatchService {
         return match.orElseGet(Match::new);
     }
 
-    public String updateMatch(Match matchToUpdate){
-        Match matchSaved = matchRepository.save(matchToUpdate);
-        return "Match " + "with id " + matchSaved.getId() + " saved";
+    public Match updateMatch(Match matchToUpdate){
+        return matchRepository.save(matchToUpdate);
     }
 
-    public Iterable<Match> getAllMatches(){
-        return matchRepository.findAll();
+    public List<Match> getAllMatches(){
+        return (List<Match>)matchRepository.findAll();
+    }
+
+    public Optional<MatchScoreDisplay> displayMatchScore(Integer matchId){
+        return buildMatchScoreDisplay(matchId);
     }
 
 
-    private MatchScoreDisplay buildMatchScoreDisplay(Integer matchId){
+    private Optional<MatchScoreDisplay> buildMatchScoreDisplay(Integer matchId){
         MatchScoreDisplay matchScoreDisplay = null;
 
         Match match = findMatch(matchId);
@@ -65,7 +68,7 @@ public class MatchService implements IMatchService {
         if (!players.isEmpty() && !sets.isEmpty()) {
 
             TennisSet currentSet = sets.get(sets.size() - 1);
-            Game currentGame = gameRepository.findByTennisSetIdOrderByIdIdDesc(currentSet.getId()).get(0);
+            Game currentGame = gameRepository.findByTennisSetIdOrderByIdDesc(currentSet.getId()).get(0);
 
             if(match.getStatus() == IN_PROGRESS ) {
                 //TODO here, game status cannot be null or must be computed
@@ -81,7 +84,7 @@ public class MatchService implements IMatchService {
                         match.getStatus().toString());
             }
         }
-        return matchScoreDisplay;
+        return Optional.ofNullable(matchScoreDisplay);
     }
 
     private String buildMatchScore(List<TennisSet> sets){
@@ -95,6 +98,12 @@ public class MatchService implements IMatchService {
                     .append(" ");
         }
         return scoreBuilder.toString();
+    }
+
+    private String buildMatchScoreLambda(List<TennisSet> sets){
+        return sets.stream()
+                .map(tennisSet -> "(" + tennisSet.getPlayer1SetScore() + "-" + tennisSet.getPlayer2SetScore() + ")" + " ")
+                .collect(Collectors.joining());
     }
 
     //TODO to compute after each player service, then register this status

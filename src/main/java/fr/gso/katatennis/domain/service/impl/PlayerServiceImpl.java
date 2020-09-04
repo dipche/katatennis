@@ -36,7 +36,4 @@ public class PlayerServiceImpl implements PlayerService {
     public List<Player> findMatchPlayers(Integer matchId){
         return playerRepository.findAllByMatchId(matchId);
     }
-
-    //todo avant de jouer voir le match du status pour gérer si possible de jouer,
-    //todo match status must be startssoon or in progress
 }

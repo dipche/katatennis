@@ -3,6 +3,7 @@ package fr.gso.katatennis.application.controller;
 import fr.gso.katatennis.application.request.StartMatchJsonCommand;
 import fr.gso.katatennis.application.response.CreateMatchJsonResponse;
 import fr.gso.katatennis.application.response.MatchScoreDisplayJsonResponse;
+import fr.gso.katatennis.application.response.ViewMatchJsonResponse;
 import fr.gso.katatennis.domain.model.Match;
 import fr.gso.katatennis.domain.model.MatchStatus;
 import fr.gso.katatennis.domain.model.Player;
@@ -33,8 +34,9 @@ public class MatchController {
     private TennisSetService tennisSetService;
 
     @GetMapping(path="/view")
-    public Match viewMatchStatus(@RequestParam(value = "id") int id, @RequestParam(value = "status", defaultValue = "STARTS_SOON") String status) {
-        return matchService.findMatch(id);
+    public ViewMatchJsonResponse viewMatchStatus(@RequestParam(value = "id") int id) {
+        Match matchFound = matchService.findMatch(id);
+        return new ViewMatchJsonResponse(matchFound.getId(), matchFound.getStatus().getStatus());
     }
 
     @PostMapping(path="/create")

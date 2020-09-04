@@ -1,6 +1,5 @@
 package fr.gso.katatennis.domain.service;
 
-import fr.gso.katatennis.application.response.MatchScoreDisplayJsonResponse;
 import fr.gso.katatennis.domain.model.Match;
 import fr.gso.katatennis.domain.model.MatchScoreDisplay;
 

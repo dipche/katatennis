@@ -2,7 +2,10 @@ package fr.gso.katatennis.domain.model;
 
 public enum GameStatus {
 
-    NORMAL("NORMAL"), DEUCE("DEUCE"), ADVANTAGE("ADVANTAGE");
+    STANDARD("NORMAL"),
+    DEUCE("DEUCE"),
+    ADVANTAGE("ADVANTAGE"),
+    TIE_BREAK("TIE_BREAK");
 
     private String status ;
 

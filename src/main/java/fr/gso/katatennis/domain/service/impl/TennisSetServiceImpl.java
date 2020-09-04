@@ -19,9 +19,8 @@ public class TennisSetServiceImpl implements TennisSetService {
         return sets.size()+1;
     }
 
-    public String updateASet(TennisSet tennisSetToUpdate){
-        TennisSet tennisSet = tennisSetRepository.save(tennisSetToUpdate);
-        return "Set " + "with number " + tennisSet.getNumber() + " saved";
+    public TennisSet updateASet(TennisSet tennisSetToUpdate){
+        return tennisSetRepository.save(tennisSetToUpdate);
     }
 
     public List<TennisSet> findMatchSets(Integer matchId){

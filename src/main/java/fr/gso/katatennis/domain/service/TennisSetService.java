@@ -1,14 +1,16 @@
 package fr.gso.katatennis.domain.service;
 
 import fr.gso.katatennis.domain.model.TennisSet;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface TennisSetService {
 
     Integer computeMatchNextSetNumber(Integer matchId);
 
-    String updateASet(TennisSet tennisSetToUpdate);
+    TennisSet updateASet(TennisSet tennisSetToUpdate);
 
     List<TennisSet> findMatchSets(Integer matchId);
 }

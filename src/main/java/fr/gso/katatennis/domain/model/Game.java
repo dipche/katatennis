@@ -13,7 +13,7 @@ public class Game {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    private Integer tennisSetId;
+    private Integer tennisSetNumber;
 
     private Integer player1Score;
 
@@ -21,9 +21,8 @@ public class Game {
 
     private GameStatus status;
 
-    public Game(int id, int tennisSetId, int player1Score, int player2Score, GameStatus status) {
-        this.id = id;
-        this.tennisSetId = tennisSetId;
+    public Game(int tennisSetNumber, int player1Score, int player2Score, GameStatus status) {
+        this.tennisSetNumber = tennisSetNumber;
         this.player1Score = player1Score;
         this.player2Score = player2Score;
         this.status = status;
@@ -36,8 +35,8 @@ public class Game {
         return id;
     }
 
-    public int getTennisSetId() {
-        return tennisSetId;
+    public int getTennisSetNumber() {
+        return tennisSetNumber;
     }
 
     public int getPlayer1Score() {
@@ -58,7 +57,7 @@ public class Game {
         if (!(o instanceof Game)) return false;
         Game game = (Game) o;
         return id.equals(game.id) &&
-                tennisSetId.equals(game.tennisSetId) &&
+                tennisSetNumber.equals(game.tennisSetNumber) &&
                 player1Score.equals(game.player1Score) &&
                 player2Score.equals(game.player2Score) &&
                 status == game.status;
@@ -66,6 +65,6 @@ public class Game {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tennisSetId, player1Score, player2Score, status);
+        return Objects.hash(id, tennisSetNumber, player1Score, player2Score, status);
     }
 }

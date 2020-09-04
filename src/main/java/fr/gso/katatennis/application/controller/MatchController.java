@@ -4,10 +4,8 @@ import fr.gso.katatennis.application.request.StartMatchJsonCommand;
 import fr.gso.katatennis.application.response.CreateMatchJsonResponse;
 import fr.gso.katatennis.application.response.MatchScoreDisplayJsonResponse;
 import fr.gso.katatennis.application.response.ViewMatchJsonResponse;
-import fr.gso.katatennis.domain.model.Match;
-import fr.gso.katatennis.domain.model.MatchStatus;
-import fr.gso.katatennis.domain.model.Player;
-import fr.gso.katatennis.domain.model.TennisSet;
+import fr.gso.katatennis.domain.model.*;
+import fr.gso.katatennis.domain.service.GameService;
 import fr.gso.katatennis.domain.service.MatchService;
 import fr.gso.katatennis.domain.service.PlayerService;
 import fr.gso.katatennis.domain.service.TennisSetService;
@@ -32,6 +30,9 @@ public class MatchController {
 
     @Autowired
     private TennisSetService tennisSetService;
+
+    @Autowired
+    private GameService gameService;
 
     @GetMapping(path="/view")
     public ViewMatchJsonResponse viewMatchStatus(@RequestParam(value = "id") int id) {
@@ -69,12 +70,17 @@ public class MatchController {
         Player savedPlayer2 = playerService.registerPlayer(player2ToSave);
 
         int nextSetNumber = tennisSetService.computeMatchNextSetNumber(match.getId());
-        TennisSet tennisSet = new TennisSet(nextSetNumber, match.getId(), 0, 0);
-        tennisSetService.updateASet(tennisSet);
+        TennisSet tennisSetToSave = new TennisSet(nextSetNumber, match.getId(), savedPlayer1.getCurrentSetScore(), savedPlayer2.getCurrentSetScore());
+        TennisSet savedTennisSet = tennisSetService.updateASet(tennisSetToSave);
 
-        Match matchToSaved = new Match(match.getId(), startMatchJsonCommand.getPlayer1Id(),
+        //TODO init the game
+        Game game = new Game(savedTennisSet.getNumber(), savedPlayer1.getCurrentGameScore(),
+                savedPlayer2.getCurrentGameScore(), GameStatus.STANDARD);
+        gameService.saveAGame(game);
+
+        Match matchToSave = new Match(match.getId(), startMatchJsonCommand.getPlayer1Id(),
                 startMatchJsonCommand.getPlayer2Id(), MatchStatus.IN_PROGRESS);
-        Match matchSaved = matchService.updateMatch(matchToSaved);
+        Match matchSaved = matchService.updateMatch(matchToSave);
 
         return matchService.displayMatchScore(matchSaved.getId())
                 .map(t -> new MatchScoreDisplayJsonResponse(t.getPlayer1Name(), t.getPlayer2Name(), t.getScore(), t.getCurrentGameStatus(), t.getMatchStatus(), matchSaved.getId()))

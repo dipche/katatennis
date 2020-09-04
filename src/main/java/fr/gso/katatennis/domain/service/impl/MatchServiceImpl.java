@@ -68,7 +68,7 @@ public class MatchServiceImpl implements MatchService {
         if (!players.isEmpty() && !sets.isEmpty()) {
 
             TennisSet currentSet = sets.get(sets.size() - 1);
-            Game currentGame = gameRepository.findByTennisSetIdOrderByIdDesc(currentSet.getId()).get(0);
+            Game currentGame = gameRepository.findByTennisSetNumberOrderByIdDesc(currentSet.getId()).get(0);
 
             if(match.getStatus() == IN_PROGRESS ) {
                 //TODO here, game status cannot be null or must be computed

@@ -111,10 +111,4 @@ public class MatchServiceImpl implements MatchService {
 
         return null;
     }
-
-    //TODO
-    private GameStatus computeGameStatus(){
-
-        return null;
-    }
 }

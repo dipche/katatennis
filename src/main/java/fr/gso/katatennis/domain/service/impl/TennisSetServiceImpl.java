@@ -26,4 +26,9 @@ public class TennisSetServiceImpl implements TennisSetService {
     public List<TennisSet> findMatchSets(Integer matchId){
         return tennisSetRepository.findAllByMatchId(matchId);
     }
+
+
+    public TennisSet findCurrentSet(Integer matchId){
+        return tennisSetRepository.findFirstByMatchIdOrderByNumberDesc(matchId);
+    }
 }

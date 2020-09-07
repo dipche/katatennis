@@ -24,6 +24,14 @@ public class TennisSet implements Comparable{
     public TennisSet() {
     }
 
+    public TennisSet(Integer id, Integer number, Integer matchId, Integer player1SetScore, Integer player2SetScore) {
+        this.id = id;
+        this.number = number;
+        this.matchId = matchId;
+        this.player1SetScore = player1SetScore;
+        this.player2SetScore = player2SetScore;
+    }
+
     public TennisSet(Integer number, Integer matchId, Integer player1SetScore, Integer player2SetScore) {
         this.number = number;
         this.matchId = matchId;

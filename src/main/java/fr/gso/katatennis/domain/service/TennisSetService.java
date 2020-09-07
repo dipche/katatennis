@@ -13,4 +13,6 @@ public interface TennisSetService {
     TennisSet updateASet(TennisSet tennisSetToUpdate);
 
     List<TennisSet> findMatchSets(Integer matchId);
+
+    TennisSet findCurrentSet(Integer matchId);
 }

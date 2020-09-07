@@ -62,18 +62,17 @@ public class MatchController {
 
 
         Player player1 = playerService.findPlayerById(startMatchJsonCommand.getPlayer1Id());
-        Player player1ToSave = new Player(player1.getId(), player1.getName(), match.getId(), 0, 0, 0);
+        Player player1ToSave = new Player(player1.getId(), player1.getName(), match.getId(), 0, 0, 0, false);
         Player savedPlayer1 = playerService.registerPlayer(player1ToSave);
 
         Player player2 = playerService.findPlayerById(startMatchJsonCommand.getPlayer2Id());
-        Player player2ToSave = new Player(player2.getId(), player2.getName(), match.getId(), 0, 0, 0);
+        Player player2ToSave = new Player(player2.getId(), player2.getName(), match.getId(), 0, 0, 0, false);
         Player savedPlayer2 = playerService.registerPlayer(player2ToSave);
 
         int nextSetNumber = tennisSetService.computeMatchNextSetNumber(match.getId());
         TennisSet tennisSetToSave = new TennisSet(nextSetNumber, match.getId(), savedPlayer1.getCurrentSetScore(), savedPlayer2.getCurrentSetScore());
         TennisSet savedTennisSet = tennisSetService.updateASet(tennisSetToSave);
 
-        //TODO init the game
         Game game = new Game(savedTennisSet.getNumber(), savedPlayer1.getCurrentGameScore(),
                 savedPlayer2.getCurrentGameScore(), GameStatus.STANDARD);
         gameService.saveAGame(game);

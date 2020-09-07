@@ -23,16 +23,19 @@ public class Player implements Comparable {
 
     private Integer numbersOfWonSet;
 
+    private Boolean hasGameAdvantage;
+
     public Player() {
     }
 
-    public Player(Integer id, String name, Integer matchId, Integer currentGameScore, Integer currentSetScore, Integer numbersOfWonSet) {
+    public Player(Integer id, String name, Integer matchId, Integer currentGameScore, Integer currentSetScore, Integer numbersOfWonSet, Boolean hasGameAdvantage) {
         this.id = id;
         this.name = name;
         this.matchId = matchId;
         this.currentGameScore = currentGameScore;
         this.currentSetScore = currentSetScore;
         this.numbersOfWonSet = numbersOfWonSet;
+        this.hasGameAdvantage = hasGameAdvantage;
     }
 
     public Player(String name) {
@@ -63,6 +66,10 @@ public class Player implements Comparable {
         return numbersOfWonSet;
     }
 
+    public Boolean getHasGameAdvantage() {
+        return hasGameAdvantage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,12 +80,13 @@ public class Player implements Comparable {
                 Objects.equals(getMatchId(), player.getMatchId()) &&
                 Objects.equals(getCurrentGameScore(), player.getCurrentGameScore()) &&
                 Objects.equals(getCurrentSetScore(), player.getCurrentSetScore()) &&
-                Objects.equals(getNumbersOfWonSet(), player.getNumbersOfWonSet());
+                Objects.equals(getNumbersOfWonSet(), player.getNumbersOfWonSet()) &&
+                Objects.equals(getHasGameAdvantage(), player.getHasGameAdvantage());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getMatchId(), getCurrentGameScore(), getCurrentSetScore(), getNumbersOfWonSet());
+        return Objects.hash(getId(), getName(), getMatchId(), getCurrentGameScore(), getCurrentSetScore(), getNumbersOfWonSet(), getHasGameAdvantage());
     }
 
     @Override

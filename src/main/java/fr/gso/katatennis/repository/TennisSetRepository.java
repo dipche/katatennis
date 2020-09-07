@@ -10,4 +10,7 @@ import java.util.List;
 public interface TennisSetRepository extends CrudRepository<TennisSet, Integer> {
 
     List<TennisSet> findAllByMatchId(Integer matchId);
+
+
+    TennisSet findFirstByMatchIdOrderByNumberDesc(Integer matchId);
 }

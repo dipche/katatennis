@@ -68,10 +68,9 @@ public class MatchServiceImpl implements MatchService {
         if (!players.isEmpty() && !sets.isEmpty()) {
 
             TennisSet currentSet = sets.get(sets.size() - 1);
-            Game currentGame = gameRepository.findByTennisSetNumberOrderByIdDesc(currentSet.getId()).get(0);
+            Game currentGame = gameRepository.findFirstByTennisSetNumberOrderByIdDesc(currentSet.getId());
 
             if(match.getStatus() == IN_PROGRESS ) {
-                //TODO here, game status cannot be null or must be computed
                 matchScoreDisplay = new MatchScoreDisplay(players.get(0).getName(),
                         players.get(1).getName(),
                         matchScore,
@@ -104,11 +103,5 @@ public class MatchServiceImpl implements MatchService {
         return sets.stream()
                 .map(tennisSet -> "(" + tennisSet.getPlayer1SetScore() + "-" + tennisSet.getPlayer2SetScore() + ")" + " ")
                 .collect(Collectors.joining());
-    }
-
-    //TODO to compute after each player service, then register this status
-    private MatchStatus computeMatchStatus(){
-
-        return null;
     }
 }

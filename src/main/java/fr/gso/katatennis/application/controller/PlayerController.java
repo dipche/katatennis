@@ -70,7 +70,6 @@ public class PlayerController {
     MatchScoreDisplayJsonResponse winAGame(@PathVariable(value = "matchId") Integer matchId,
                                            @RequestBody PlayerWinAGameCommand playerWinAGameCommand) {
 
-        //TODO is match status in progress ?
         Match startedMatch = matchService.findMatch(matchId);
 
         if (startedMatch.getId() == null)
@@ -101,10 +100,18 @@ public class PlayerController {
         boolean hasPlayer1WonTheGame = playerWinAGameCommand.getPlayerName().equalsIgnoreCase(player1.getName());
         boolean hasPlayer2WonTheGame = playerWinAGameCommand.getPlayerName().equalsIgnoreCase(player2.getName());
 
-        GameStatus nextGameStatus = gameService.computeNextGameStatus(currentGame.getStatus(), player1, player2,
+        GameStatus currentGameStatus = currentGame.getStatus();
+
+        GameStatus nextGameStatus = gameService.computeNextGameStatus(currentGameStatus, player1, player2,
                 hasPlayer1WonTheGame, hasPlayer2WonTheGame);
 
-        List<Player> playersToUpdate = playerService.buildPlayersUpdate(currentGame.getStatus(), nextGameStatus, player1,
+        //TODO si prochain statut tie_break, remettre à jour les scores game des joeurs
+
+
+        //TODO à la fin du tie break (nextstatus different de tie break)
+        //TODO mettre a jour le gagnant numbersOfWonSet et ses autres compteurs
+
+        List<Player> playersToUpdate = playerService.buildPlayersUpdate(currentGameStatus, nextGameStatus, player1,
                 player2, hasPlayer1WonTheGame, hasPlayer2WonTheGame);
 
         playerRepository.saveAll(playersToUpdate);
@@ -112,14 +119,14 @@ public class PlayerController {
         TennisSet currentSetToUpdate = new TennisSet(currentSet.getId(), currentSet.getNumber(),
                 currentSet.getMatchId(), playersToUpdate.get(0).getCurrentSetScore(), playersToUpdate.get(1).getCurrentSetScore());
 
-        currentSetToUpdate = tennisSetRepository.save(currentSetToUpdate);
+        TennisSet currentSetUpdated = tennisSetRepository.save(currentSetToUpdate);
 
         List<Player> playersFromDB = playerService.findMatchPlayers(matchId);
 
-        boolean isMatchFinished = isMatchFinished(playersFromDB);
+        boolean isMatchFinished = playerService.isMatchFinished(playersFromDB);
 
         if (isMatchFinished){
-            Optional<Player> theWinner = findThePlayerOfMatch(playersFromDB);
+            Optional<Player> theWinner = playerService.findThePlayerOfMatch(playersFromDB);
             Player winner = theWinner.get();
             Match matchToEnd = matchService.findMatch(matchId);
             if (winner.getId() % 2 == 0){
@@ -129,34 +136,23 @@ public class PlayerController {
             }
             matchService.updateMatch(matchToEnd);
         } else {
-            Game gameToSave = null;
-            if (isSetFinished(currentSetToUpdate)){
+            Game gameToSave;
+            if (tennisSetService.isSetFinished(currentSetUpdated)){
                 int nextSetNum =  tennisSetService.computeMatchNextSetNumber(matchId);
                 gameToSave = new Game(nextSetNum, player1.getCurrentGameScore(), player2.getCurrentGameScore(), nextGameStatus);
+                //TODO trouver le vainqueur et incrémenter ses stats numbersOfWonSet ?
+                //TODO réinitialiser tous les autres autres stats de l'autre joeur
             } else{
-                gameToSave = new Game(currentSetToUpdate.getNumber(), player1.getCurrentGameScore(), player2.getCurrentGameScore(), nextGameStatus);
+                gameToSave = new Game(currentSetUpdated.getNumber(), player1.getCurrentGameScore(), player2.getCurrentGameScore(), nextGameStatus);
             }
             gameRepository.save(gameToSave);
+            //TODO dans le cas du set mettre à jour les scores des gagnants  non ? numbersOfWonSet ?
         }
 
         return matchService.displayMatchScore(matchId)
                 .map(t -> new MatchScoreDisplayJsonResponse(t.getPlayer1Name(), t.getPlayer2Name(),
                         t.getScore(), t.getCurrentGameStatus(), t.getMatchStatus(), matchId))
                 .orElse(null);
-
-    }
-
-    private boolean isSetFinished(TennisSet aTennisSet) {
-        return ((aTennisSet.getPlayer1SetScore() == 6 || aTennisSet.getPlayer2SetScore() == 6)
-                && Math.abs(aTennisSet.getPlayer1SetScore()-aTennisSet.getPlayer2SetScore()) >= 2);
-    }
-
-    private boolean isMatchFinished(List<Player> players) {
-        return players.stream().anyMatch(p -> p.getNumbersOfWonSet() == 3);
-    }
-
-    private Optional<Player> findThePlayerOfMatch(List<Player> players){
-        return players.stream().filter(p -> p.getNumbersOfWonSet() == 3).findFirst();
     }
 
 }

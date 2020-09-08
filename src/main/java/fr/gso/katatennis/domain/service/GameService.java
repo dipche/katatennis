@@ -12,5 +12,10 @@ public interface GameService {
 
     Game saveAGame(Game gameToUpdate);
 
-    GameStatus computeNextGameStatus(GameStatus currentGameStatus, Player player1, Player player2, boolean hasPlayer1WonTheGame, boolean hasPlayer2WonTheGame);
+    GameStatus computeNextGameStatus(GameStatus currentGameStatus, Player player1, Player player2,
+                                     boolean hasPlayer1WonTheGame, boolean hasPlayer2WonTheGame);
+
+    boolean isTieBreakGameStarting(Player player1, Player player2);
+
+    boolean isTieBreakGameEnding(Player player1, Player player2);
 }

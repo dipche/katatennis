@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
+
+    private final static int NUM_SETS_TO_WIN_MATCH = 3;
+
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -37,7 +41,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     public List<Player> findMatchPlayers(Integer matchId){
-        return playerRepository.findAllByMatchId(matchId);
+        return playerRepository.findAllByMatchId(matchId).stream()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
 
@@ -146,6 +152,33 @@ public class PlayerServiceImpl implements PlayerService {
             }
         }
 
+        if(currentGameStatus == GameStatus.TIE_BREAK && nextGameStatus == GameStatus.TIE_BREAK){
+
+            if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame){
+                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                        player1.getCurrentGameScore()+1, player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player1ToUpdate);
+
+                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                        player2.getCurrentGameScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player2ToUpdate);
+            }
+
+            if(!hasPlayer1WonTheGame && hasPlayer2WonTheGame){
+                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                        player1.getCurrentGameScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player1ToUpdate);
+
+                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                        player2.getCurrentGameScore()+1, player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player2ToUpdate);
+            }
+
+        }
         return players;
     }
 
@@ -165,5 +198,16 @@ public class PlayerServiceImpl implements PlayerService {
             nextScore = GameScore.FORTY;
         }
         return nextScore;
+    }
+
+
+    public boolean isMatchFinished(List<Player> players) {
+        return players.stream().anyMatch(p -> p.getNumbersOfWonSet() == NUM_SETS_TO_WIN_MATCH);
+    }
+
+    public Optional<Player> findThePlayerOfMatch(List<Player> players) {
+        return players.stream()
+                .filter(p -> p.getNumbersOfWonSet() == NUM_SETS_TO_WIN_MATCH)
+                .findFirst();
     }
 }

@@ -11,6 +11,9 @@ import java.util.List;
 @Service
 public class TennisSetServiceImpl implements TennisSetService {
 
+    private final static int MIN_GAMES_TO_WIN_SET = 6;
+    private final static int GAMES_GAP_TO_WIN_SET = 2;
+
     @Autowired
     private TennisSetRepository tennisSetRepository;
 
@@ -30,5 +33,10 @@ public class TennisSetServiceImpl implements TennisSetService {
 
     public TennisSet findCurrentSet(Integer matchId){
         return tennisSetRepository.findFirstByMatchIdOrderByNumberDesc(matchId);
+    }
+
+    public boolean isSetFinished(TennisSet aTennisSet) {
+        return ((aTennisSet.getPlayer1SetScore() == MIN_GAMES_TO_WIN_SET || aTennisSet.getPlayer2SetScore() == MIN_GAMES_TO_WIN_SET)
+                && Math.abs(aTennisSet.getPlayer1SetScore()-aTennisSet.getPlayer2SetScore()) >= GAMES_GAP_TO_WIN_SET);
     }
 }

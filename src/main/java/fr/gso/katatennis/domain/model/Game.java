@@ -1,24 +1,26 @@
 package fr.gso.katatennis.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="GAME")
 public class Game {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "GAME_ID")
     private Integer id;
 
+    @Column(name = "SET_NUMBER")
     private Integer tennisSetNumber;
 
+    @Column(name = "PLAYER_1_SCORE")
     private Integer player1Score;
 
+    @Column(name = "PLAYER_2_SCORE")
     private Integer player2Score;
 
+    @Column(name = "GAME_STATUS")
     private GameStatus status;
 
     public Game(int tennisSetNumber, int player1Score, int player2Score, GameStatus status) {
@@ -31,19 +33,19 @@ public class Game {
     public Game() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getTennisSetNumber() {
+    public Integer getTennisSetNumber() {
         return tennisSetNumber;
     }
 
-    public int getPlayer1Score() {
+    public Integer getPlayer1Score() {
         return player1Score;
     }
 
-    public int getPlayer2Score() {
+    public Integer getPlayer2Score() {
         return player2Score;
     }
 

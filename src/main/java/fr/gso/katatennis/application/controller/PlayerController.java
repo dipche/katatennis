@@ -90,9 +90,9 @@ public class PlayerController {
         if (!isPlayerRegisteredToMatch)
             throw new IllegalStateException("Player " + playerWinAGameCommand.getPlayerName() + " not registered to match id : " + startedMatch.getId());
 
-        TennisSet currentSet = tennisSetRepository.findFirstByMatchIdOrderByNumberDesc(matchId);
+        TennisSet currentSet = tennisSetRepository.findByMatchIdOrderByNumberDesc(matchId).stream().findFirst().get();
 
-        Game currentGame = gameRepository.findFirstByTennisSetNumberOrderByIdDesc(currentSet.getNumber());
+        Game currentGame = gameRepository.findByTennisSetNumberOrderByIdDesc(currentSet.getNumber()).stream().findFirst().get();
 
         Player player1 = players.get(0);
         Player player2 = players.get(1);

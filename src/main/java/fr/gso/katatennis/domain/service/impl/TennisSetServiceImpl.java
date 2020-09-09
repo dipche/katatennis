@@ -28,15 +28,6 @@ public class TennisSetServiceImpl implements TennisSetService {
         return tennisSetRepository.save(tennisSetToUpdate);
     }
 
-    public List<TennisSet> findMatchSets(Integer matchId) {
-        return tennisSetRepository.findAllByMatchId(matchId);
-    }
-
-
-    public TennisSet findCurrentSet(Integer matchId) {
-        return tennisSetRepository.findFirstByMatchIdOrderByNumberDesc(matchId);
-    }
-
     public boolean isSetFinished(TennisSet aTennisSet) {
         return ((aTennisSet.getPlayer1SetScore() == MIN_GAMES_TO_WIN_SET || aTennisSet.getPlayer2SetScore() == MIN_GAMES_TO_WIN_SET)
                 && Math.abs(aTennisSet.getPlayer1SetScore() - aTennisSet.getPlayer2SetScore()) >= GAMES_GAP_TO_WIN_SET)

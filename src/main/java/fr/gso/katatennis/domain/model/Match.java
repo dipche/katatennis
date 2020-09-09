@@ -1,22 +1,23 @@
 package fr.gso.katatennis.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="MATCH")
 public class Match {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "MATCH_ID")
     private Integer id;
 
+    @Column(name = "PLAYER_1_ID")
     private Integer player1Id;
 
+    @Column(name = "PLAYER_2_ID")
     private Integer player2Id;
 
+    @Column(name = "MATCH_STATUS")
     private MatchStatus status;
 
     public Match() {

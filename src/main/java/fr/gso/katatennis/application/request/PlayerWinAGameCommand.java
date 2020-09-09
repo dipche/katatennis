@@ -8,7 +8,7 @@ public class PlayerWinAGameCommand {
 
     private final Integer matchId;
 
-    public PlayerWinAGameCommand(@JsonProperty("Player Name")String playerName, @JsonProperty("Match Id")Integer matchId) {
+    public PlayerWinAGameCommand(@JsonProperty("playerName")String playerName, @JsonProperty("matchId")Integer matchId) {
         this.playerName = playerName;
         this.matchId = matchId;
     }

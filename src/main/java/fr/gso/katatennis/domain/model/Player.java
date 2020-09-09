@@ -1,28 +1,32 @@
 package fr.gso.katatennis.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="PLAYER")
 public class Player implements Comparable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "PLAYER_ID")
     private Integer id;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "MATCH_ID")
     private Integer matchId;
 
+    @Column(name = "GAME_SCORE")
     private Integer currentGameScore;
 
+    @Column(name = "SET_SCORE")
     private Integer currentSetScore;
 
+    @Column(name = "NUM_SET_WON")
     private Integer numbersOfWonSet;
 
+    @Column(name = "HAS_ADVANTAGE")
     private Boolean hasGameAdvantage;
 
     public Player() {

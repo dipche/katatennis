@@ -12,5 +12,5 @@ public interface TennisSetRepository extends CrudRepository<TennisSet, Integer> 
     List<TennisSet> findAllByMatchId(Integer matchId);
 
 
-    TennisSet findFirstByMatchIdOrderByNumberDesc(Integer matchId);
+    List<TennisSet> findByMatchIdOrderByNumberDesc(Integer matchId);
 }

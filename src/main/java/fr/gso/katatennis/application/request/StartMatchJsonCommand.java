@@ -10,9 +10,9 @@ public class StartMatchJsonCommand {
 
     private final Integer player2Id;
 
-    public StartMatchJsonCommand(@JsonProperty("Match Id") Integer matchId,
-                                 @JsonProperty("Player 1 Id") Integer player1Id,
-                                 @JsonProperty("Player 2 Id") Integer player2Id) {
+    public StartMatchJsonCommand(@JsonProperty("matchId") Integer matchId,
+                                 @JsonProperty("player1Id") Integer player1Id,
+                                 @JsonProperty("player2Id") Integer player2Id) {
         this.matchId = matchId;
         this.player1Id = player1Id;
         this.player2Id = player2Id;

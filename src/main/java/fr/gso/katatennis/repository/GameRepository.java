@@ -10,6 +10,4 @@ import java.util.List;
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
     List<Game> findByTennisSetNumberOrderByIdDesc(Integer setNumber);
-
-    Game findFirstByTennisSetNumberOrderByIdDesc(Integer setNumber);
 }

@@ -6,7 +6,7 @@ public class CreatePlayerJsonCommand {
 
     private final String playerName;
 
-    public CreatePlayerJsonCommand(@JsonProperty("Player Name")String playerName) {
+    public CreatePlayerJsonCommand(@JsonProperty("playerName")String playerName) {
         this.playerName = playerName;
     }
 

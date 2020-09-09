@@ -33,17 +33,21 @@ public class GameServiceImpl implements GameService {
     public GameStatus computeNextGameStatus(GameStatus currentGameStatus, Player player1, Player player2, boolean hasPlayer1WonTheGame, boolean hasPlayer2WonTheGame) {
         GameStatus gameStatusToReturn = null;
 
-        if (currentGameStatus == GameStatus.STANDARD && !player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
-                && !player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()))
+        //TODO poourquoi standard alors que deuce
+        if (currentGameStatus == GameStatus.STANDARD && (!player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
+                || !player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()))){
             gameStatusToReturn = GameStatus.STANDARD;
+        }
 
         if (currentGameStatus == GameStatus.STANDARD && player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
-                && !player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()) && hasPlayer2WonTheGame)
+                && player2.getCurrentGameScore().equals(GameScore.THIRTY.getScore()) && hasPlayer2WonTheGame){
             gameStatusToReturn = GameStatus.DEUCE;
+        }
 
-        if (currentGameStatus == GameStatus.STANDARD && !player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
-                && player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()) && hasPlayer1WonTheGame)
+        if (currentGameStatus == GameStatus.STANDARD && player1.getCurrentGameScore().equals(GameScore.THIRTY.getScore())
+                && player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()) && hasPlayer1WonTheGame){
             gameStatusToReturn = GameStatus.DEUCE;
+        }
 
         if (currentGameStatus == GameStatus.DEUCE && player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
                 && player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()) && hasPlayer1WonTheGame) {

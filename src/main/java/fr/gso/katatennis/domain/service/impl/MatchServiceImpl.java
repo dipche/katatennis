@@ -66,9 +66,11 @@ public class MatchServiceImpl implements MatchService {
         String matchScore = buildMatchScore(sets);
 
         if (!players.isEmpty() && !sets.isEmpty()) {
-
             TennisSet currentSet = sets.get(sets.size() - 1);
-            Game currentGame = gameRepository.findFirstByTennisSetNumberOrderByIdDesc(currentSet.getId());
+            Game currentGame = gameRepository.findByTennisSetNumberOrderByIdDesc(currentSet.getNumber())
+                    .stream()
+                    .findFirst()
+                    .get();
 
             if(match.getStatus() == IN_PROGRESS ) {
                 matchScoreDisplay = new MatchScoreDisplay(players.get(0).getName(),

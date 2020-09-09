@@ -3,21 +3,24 @@ package fr.gso.katatennis.domain.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="TENNISSET")
 public class TennisSet implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "SET_ID")
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "SET_NUMBER")
     private Integer number;
 
-    @Column(nullable = false)
+    @Column(name = "MATCH_ID")
     private Integer matchId;
 
+    @Column(name = "PLAYER_1_SCORE")
     private Integer player1SetScore;
 
+    @Column(name = "PLAYER_2_SCORE")
     private Integer player2SetScore;
 
     public TennisSet() {
@@ -38,23 +41,23 @@ public class TennisSet implements Comparable {
         this.player2SetScore = player2SetScore;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public int getMatchId() {
+    public Integer getMatchId() {
         return matchId;
     }
 
-    public int getPlayer1SetScore() {
+    public Integer getPlayer1SetScore() {
         return player1SetScore;
     }
 
-    public int getPlayer2SetScore() {
+    public Integer getPlayer2SetScore() {
         return player2SetScore;
     }
 

@@ -51,6 +51,35 @@ public class PlayerServiceImpl implements PlayerService {
 
         List<Player> players = new ArrayList<>();
 
+        if(currentGameStatus == GameStatus.STANDARD && nextGameStatus == GameStatus.DEUCE){
+
+            if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame){
+
+                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                        computeNextScore(player1.getCurrentGameScore()).getScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player1ToUpdate);
+
+                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                        player2.getCurrentGameScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player2ToUpdate);
+            }
+
+            if(!hasPlayer1WonTheGame && hasPlayer2WonTheGame){
+
+                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                        player1.getCurrentGameScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player1ToUpdate);
+
+                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                        computeNextScore(player2.getCurrentGameScore()).getScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                        Boolean.FALSE);
+                players.add(player2ToUpdate);
+            }
+        }
+
         if(currentGameStatus == GameStatus.DEUCE && nextGameStatus == GameStatus.ADVANTAGE){
 
            if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame){
@@ -127,27 +156,49 @@ public class PlayerServiceImpl implements PlayerService {
 
         if(currentGameStatus == GameStatus.STANDARD && nextGameStatus == GameStatus.STANDARD){
 
-            if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame){
-                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
-                        computeNextScore(player1.getCurrentGameScore()).getScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
-                        Boolean.FALSE);
-                players.add(player1ToUpdate);
+            if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame) {
+                Player player1ToUpdate, player2ToUpdate;
 
-                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
-                        player2.getCurrentGameScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
-                        Boolean.FALSE);
+                if (player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())) {
+                    player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                            computeNextScore(player1.getCurrentGameScore()).getScore(), player1.getCurrentSetScore() + 1, player1.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                    player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                            0, player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                } else {
+                    player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                            computeNextScore(player1.getCurrentGameScore()).getScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+
+                    player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                            player2.getCurrentGameScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                }
+                players.add(player1ToUpdate);
                 players.add(player2ToUpdate);
             }
 
             if(!hasPlayer1WonTheGame && hasPlayer2WonTheGame){
-                Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
-                        player1.getCurrentGameScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
-                        Boolean.FALSE);
-                players.add(player1ToUpdate);
+                Player player1ToUpdate, player2ToUpdate;
 
-                Player player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
-                        computeNextScore(player2.getCurrentGameScore()).getScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
-                        Boolean.FALSE);
+                if (player2.getCurrentGameScore().equals(GameScore.FORTY.getScore())) {
+                    player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                            0, player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                    player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                            computeNextScore(player2.getCurrentGameScore()).getScore(), player2.getCurrentSetScore()+1, player2.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                } else {
+                    player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
+                            player1.getCurrentGameScore(), player1.getCurrentSetScore(), player1.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+
+                    player2ToUpdate = new Player(player2.getId(), player2.getName(), player2.getMatchId(),
+                            computeNextScore(player2.getCurrentGameScore()).getScore(), player2.getCurrentSetScore(), player2.getNumbersOfWonSet(),
+                            Boolean.FALSE);
+                }
+                players.add(player1ToUpdate);
                 players.add(player2ToUpdate);
             }
         }

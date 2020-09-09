@@ -152,7 +152,7 @@ public class PlayerServiceImpl implements PlayerService {
             }
         }
 
-        if(currentGameStatus == GameStatus.TIE_BREAK && nextGameStatus == GameStatus.TIE_BREAK){
+        if(nextGameStatus == GameStatus.TIE_BREAK){
 
             if(hasPlayer1WonTheGame && !hasPlayer2WonTheGame){
                 Player player1ToUpdate = new Player(player1.getId(), player1.getName(), player1.getMatchId(),
@@ -179,7 +179,7 @@ public class PlayerServiceImpl implements PlayerService {
             }
 
         }
-        return players;
+        return players.stream().sorted().collect(Collectors.toList());
     }
 
     private GameScore computeNextScore(Integer playerScore){
@@ -209,5 +209,44 @@ public class PlayerServiceImpl implements PlayerService {
         return players.stream()
                 .filter(p -> p.getNumbersOfWonSet() == NUM_SETS_TO_WIN_MATCH)
                 .findFirst();
+    }
+
+
+    public List<Player> updatePlayersAtEndOfSet(Integer matchId, GameStatus currentGameStatus){
+
+        Player winnerOfSet, looserOfSet;
+        List<Player> playersFromDB = this.findMatchPlayers(matchId);
+        List<Player> playersAtEndOfSet = new ArrayList<>();
+        Player player1 = playersFromDB.get(0);
+        Player player2 = playersFromDB.get(1);
+
+        if(currentGameStatus == GameStatus.TIE_BREAK){
+            if(player1.getCurrentGameScore() > player2.getCurrentGameScore()){
+                winnerOfSet = player1;
+            } else{
+                winnerOfSet = player2;
+            }
+        } else {
+            if(player1.getCurrentSetScore() > player2.getCurrentSetScore()){
+                winnerOfSet = player1;
+            } else{
+                winnerOfSet = player2;
+            }
+        }
+
+        looserOfSet = playersFromDB.stream()
+                .filter(p -> !p.getName()
+                        .equalsIgnoreCase(winnerOfSet.getName()))
+                .findFirst().get();
+
+        Player winnerOfSetTosave = new Player(winnerOfSet.getId(), winnerOfSet.getName(), winnerOfSet.getMatchId(), 0,
+                0, winnerOfSet.getNumbersOfWonSet()+1, winnerOfSet.getHasGameAdvantage());
+        playersAtEndOfSet.add(winnerOfSetTosave);
+
+        Player looserOfSetToSave = new Player(looserOfSet.getId(), looserOfSet.getName(), looserOfSet.getMatchId(), 0,
+                0, looserOfSet.getNumbersOfWonSet(), looserOfSet.getHasGameAdvantage());
+        playersAtEndOfSet.add(looserOfSetToSave);
+
+        return playersAtEndOfSet.stream().sorted().collect(Collectors.toList());
     }
 }

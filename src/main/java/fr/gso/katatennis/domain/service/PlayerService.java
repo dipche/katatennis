@@ -24,4 +24,6 @@ public interface PlayerService {
     boolean isMatchFinished(List<Player> players);
 
     Optional<Player> findThePlayerOfMatch(List<Player> players);
+
+    List<Player> updatePlayersAtEndOfSet(Integer matchId, GameStatus currentGameStatus);
 }

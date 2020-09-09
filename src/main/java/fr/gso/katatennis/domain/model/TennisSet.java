@@ -1,20 +1,19 @@
 package fr.gso.katatennis.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class TennisSet implements Comparable{
+public class TennisSet implements Comparable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(nullable = false)
     private Integer number;
 
+    @Column(nullable = false)
     private Integer matchId;
 
     private Integer player1SetScore;

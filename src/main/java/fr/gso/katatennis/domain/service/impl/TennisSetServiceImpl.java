@@ -13,30 +13,34 @@ public class TennisSetServiceImpl implements TennisSetService {
 
     private final static int MIN_GAMES_TO_WIN_SET = 6;
     private final static int GAMES_GAP_TO_WIN_SET = 2;
+    private final static int GAMES_MAX_AT_TIE_BREAK = 7;
+    private final static int GAMES_MIN_AT_TIE_BREAK = 6;
 
     @Autowired
     private TennisSetRepository tennisSetRepository;
 
-    public Integer computeMatchNextSetNumber(Integer matchId){
+    public Integer computeMatchNextSetNumber(Integer matchId) {
         List<TennisSet> sets = tennisSetRepository.findAllByMatchId(matchId);
-        return sets.size()+1;
+        return sets.size() + 1;
     }
 
-    public TennisSet updateASet(TennisSet tennisSetToUpdate){
+    public TennisSet updateASet(TennisSet tennisSetToUpdate) {
         return tennisSetRepository.save(tennisSetToUpdate);
     }
 
-    public List<TennisSet> findMatchSets(Integer matchId){
+    public List<TennisSet> findMatchSets(Integer matchId) {
         return tennisSetRepository.findAllByMatchId(matchId);
     }
 
 
-    public TennisSet findCurrentSet(Integer matchId){
+    public TennisSet findCurrentSet(Integer matchId) {
         return tennisSetRepository.findFirstByMatchIdOrderByNumberDesc(matchId);
     }
 
     public boolean isSetFinished(TennisSet aTennisSet) {
         return ((aTennisSet.getPlayer1SetScore() == MIN_GAMES_TO_WIN_SET || aTennisSet.getPlayer2SetScore() == MIN_GAMES_TO_WIN_SET)
-                && Math.abs(aTennisSet.getPlayer1SetScore()-aTennisSet.getPlayer2SetScore()) >= GAMES_GAP_TO_WIN_SET);
+                && Math.abs(aTennisSet.getPlayer1SetScore() - aTennisSet.getPlayer2SetScore()) >= GAMES_GAP_TO_WIN_SET)
+                || ((aTennisSet.getPlayer1SetScore() == GAMES_MAX_AT_TIE_BREAK && aTennisSet.getPlayer2SetScore() == GAMES_MIN_AT_TIE_BREAK)
+                || (aTennisSet.getPlayer1SetScore() == GAMES_MIN_AT_TIE_BREAK && aTennisSet.getPlayer2SetScore() == GAMES_MAX_AT_TIE_BREAK));
     }
 }

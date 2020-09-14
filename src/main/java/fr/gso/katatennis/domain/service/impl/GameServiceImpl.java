@@ -33,9 +33,13 @@ public class GameServiceImpl implements GameService {
     public GameStatus computeNextGameStatus(GameStatus currentGameStatus, Player player1, Player player2, boolean hasPlayer1WonTheGame, boolean hasPlayer2WonTheGame) {
         GameStatus gameStatusToReturn = null;
 
-        //TODO poourquoi standard alors que deuce
-        if (currentGameStatus == GameStatus.STANDARD && (!player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
-                || !player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()))){
+        if (currentGameStatus == GameStatus.STANDARD && player1.getCurrentGameScore().equals(GameScore.FORTY.getScore())
+                && player2.getCurrentGameScore().equals(GameScore.THIRTY.getScore()) && hasPlayer1WonTheGame){
+            gameStatusToReturn = GameStatus.STANDARD;
+        }
+
+        if (currentGameStatus == GameStatus.STANDARD && player1.getCurrentGameScore().equals(GameScore.THIRTY.getScore())
+                && player2.getCurrentGameScore().equals(GameScore.FORTY.getScore()) && hasPlayer2WonTheGame){
             gameStatusToReturn = GameStatus.STANDARD;
         }
 
